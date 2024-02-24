@@ -1,0 +1,31 @@
+#include<stdio.h>
+void main()
+{
+	int array1[20],array2[20],mergedarray[20],size1,size2,i,j,k,l;
+	printf("Enter the size of first array: ");
+	scanf("%d",&size1);
+	printf("Enter the elements of the first array in ascending order");
+	for(i=0;i<size1;i++)
+		scanf("%d",&array1[i]);
+	printf("Enter the size of the second array");
+	scanf("%d",&size2);
+	printf("Enter the elements of second arrayin ascending order");
+	for(i=0;i<size2;i++)
+		scanf("%d",&array2[i]);
+	i=k=j=0;
+	while(i<size1 && j<size2)
+	{
+		if(array1[i]<array2[j])
+			mergedarray[k++]=array1[i++];
+		else
+			mergedarray[k++]=array2[j++];
+	}
+	for(;i<size1;)
+		mergedarray[k++]=array1[i++];
+	for(;j<size2;)
+		mergedarray[k++]=array2[j++];
+	printf("The merged array is\n");
+	for(i=0;i<k;i++)
+		printf("%d  ",mergedarray[i]);
+	printf("\n");
+}
