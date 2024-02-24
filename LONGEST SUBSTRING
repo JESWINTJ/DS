@@ -1,0 +1,50 @@
+#include<stdio.h>
+#include<string.h>
+int lengthoflongestsubstring(char*s,char*substring)
+{
+	int n=strlen(s);
+	int maxlength=0;
+	int start=0,i;
+	int end=0;
+	int currentlength=0;
+	int visited[256];
+	for(i=0;i<256;i++)
+	{
+		visited[i]=-1;
+	}
+	while(end<n)
+	{
+		if(visited[s[end]]==-1 || visited[s[end]]<start)
+		{
+			visited[s[end]]=end;
+			end++;
+			currentlength++;
+			if(currentlength>maxlength)
+			{
+				maxlength=currentlength;
+				strncpy(substring,s+start,maxlength);
+				substring[maxlength]='\0';
+			}
+		}
+		else
+		{
+			start=visited[s[end]]+1;
+			currentlength=end-start;
+			}
+		}
+	return maxlength;
+}
+int main()
+{
+	char input[20];
+	printf("Enter the string");
+	scanf("%[^\n]",input);
+	char substring[256];
+	int length=lengthoflongestsubstring(input,substring);
+	printf("input string:%s\n",input);
+ 	printf("longest substring without repeating character:%s\n",substring);
+	printf("length of longest substring:%d\n",length);
+	return 0;
+}
+	
+	
