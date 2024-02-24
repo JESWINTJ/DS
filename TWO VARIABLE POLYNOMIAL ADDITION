@@ -1,0 +1,63 @@
+#include<stdio.h>
+struct node{
+        struct node * next;
+        int exp,coeff,yexp,ycoeff;
+};
+struct node * getnode(int exp,int yexp,int coeff){
+        struct node * ne=(struct node *)malloc(sizeof(struct node));
+        ne->next=NULL;
+        ne->exp=exp;
+	ne->coeff=coeff;
+	ne->yexp=yexp;
+        return ne;
+}
+void insert(struct node* head,int count)
+{
+	struct node * temp;
+	int coeff,exp,yexp;
+	while(count>0)
+	{
+		printf("Enter the coeff,exp ofx and y respectively:");
+		scanf("%d%d%d",&coeff,&exp,&yexp);
+		temp=getnode(exp,yexp,coeff);
+		temp=getnode(exp,yexp,coeff);
+		head->next=temp;
+		head=temp;
+		count--;
+	}
+}
+void display(struct node * head)
+{
+	head=head->next;
+	if(head!=NULL)
+	{
+		while(head!=NULL)
+		{
+			if(head->next=NULL)
+			{
+				printf("%dx^%dy^%d \n\n",head->coeff,head->exp,head-yexp);
+				break;
+			}
+		}
+	}	
+	else
+			printf("empty..\n");
+}
+int main()
+{
+	struct node *p1,*p2,*p3,*ptr1,*ptr2,*ptr3,*temp;
+	int flag=0;
+	int n;
+	p1=getnode(0,0,0);
+	p2=getnode(0,0,0);
+	p3=getnode(0,0,0);
+	printf("How many elemnets");
+	scanf("%d",&n);
+	insert(p1,n);
+	printf("How many elements:");
+	scanf("%d",&n);
+	insert(p2,n);
+	ptr1=p1->next;
+	ptr2=p2->next;
+	ptr3=p3;
+	while(ptr1!=NULL && ptr2!)
