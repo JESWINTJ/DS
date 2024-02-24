@@ -1,0 +1,50 @@
+#include<stdio.h>
+#include<string.h>
+char s[10];
+int top=-1;
+void push(char a)
+{
+ top=top+1;
+ s[top]=a;
+}
+char pop()
+{
+  char ch;
+  ch=s[top];
+  top=top-1;
+  return ch;
+}
+
+void main()
+{
+  int i,j,len,count=0;
+  char str[25];
+  printf("Enter the string:");
+  scanf("%[^\n]",str);
+  for(i=0;str[i]!='\0';i++)
+  {
+    push(str[i]);
+  }
+ i=0;
+while(str[i]!='\0')
+{
+len=len+1;
+i++;
+}
+
+  for(i=0;i<len;i++)
+  {
+    if(str[i]==pop())
+    {
+       count=count+1;
+    }
+  }
+  if(count==len)
+  {
+     printf("The string is  palindrome\n");
+  }
+  else
+  {
+    printf("The string is not palindrome\n");
+  }
+}
