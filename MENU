@@ -1,0 +1,201 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+typedef struct Node Node;
+
+Node* createNode(int data) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+Node* insertFront(Node* head, int data) {
+    Node* newNode = createNode(data);
+    newNode->next = head;
+    return newNode;
+}
+
+Node* insertAtPosition(Node* head, int key, int data) {
+    Node* newNode = createNode(data);
+    if (head == NULL) {
+        printf("List is empty. Can't insert at a position.\n");
+        return head;
+    }
+
+    if (head->data == key) {
+        newNode->next = head->next;
+        head->next = newNode;
+        return head;
+    }
+
+    Node* current = head;
+    while (current->next) {
+        if (current->next->data == key) {
+            newNode->next = current->next->next;
+            current->next = newNode;
+            return head;
+        }
+        current = current->next;
+    }
+
+    printf("Key %d not found in the list. Couldn't insert at the specified position.\n", key);
+    return head;
+}
+
+Node* insertLast(Node* head, int data) {
+    Node* newNode = createNode(data);
+    if (head == NULL) {
+        return newNode;
+    }
+
+    Node* current = head;
+    while (current->next) {
+        current = current->next;
+    }
+    current->next = newNode;
+    return head;
+}
+
+Node* deleteFront(Node* head) {
+    if (head) {
+        Node* temp = head;
+        head = head->next;
+        free(temp);
+    } else {
+        printf("List is empty. Nothing to delete.\n");
+    }
+    return head;
+}
+
+Node* deleteAtPosition(Node* head, int key) {
+    if (head == NULL) {
+        printf("List is empty. Can't delete from a position.\n");
+        return head;
+    }
+
+    if (head->data == key) {
+        Node* temp = head;
+        head = head->next;
+        free(temp);
+        return head;
+    }
+
+    Node* current = head;
+    while (current->next) {
+        if (current->next->data == key) {
+            Node* temp = current->next;
+            current->next = current->next->next;
+            free(temp);
+            return head;
+        }
+        current = current->next;
+    }
+
+    printf("Key %d not found in the list. Couldn't delete at the specified position.\n", key);
+    return head;
+}
+
+Node* deleteLast(Node* head) {
+    if (head == NULL) {
+        printf("List is empty. Nothing to delete.\n");
+    } else if (head->next == NULL) {
+        free(head);
+        head = NULL;
+    } else {
+        Node* current = head;
+        while (current->next->next) {
+            current = current->next;
+        }
+        free(current->next);
+        current->next = NULL;
+    }
+    return head;
+}
+
+void display(Node* head) {
+    Node* current = head;
+    while (current) {
+        printf("%d\t", current->data);
+        current = current->next;
+    }
+    printf("\n");
+}
+
+int main() {
+    Node* head = NULL;
+    int choice;
+    int data, key;
+
+    while (1) {
+        printf("1-To create the list\n");
+        printf("2-Insert node at front\n");
+        printf("3-Insert at any position\n");
+        printf("4-Insert at last\n");
+        printf("5-Delete from beginning\n");
+        printf("6-Delete from any position\n");
+        printf("7-Delete from last\n");
+        printf("8-To display the list\n");
+        printf("9-Exit\n");
+        printf("Enter the choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                head = NULL;
+                printf("Enter numbers to create list: ");
+                while (1) {
+                    scanf("%d", &data);
+                    if (data == -999)
+                        break;
+                    head = insertLast(head, data);
+                }
+                break;
+            case 2:
+                printf("Enter the number: ");
+                scanf("%d", &data);
+                head = insertFront(head, data);
+                break;
+            case 3:
+                printf("Enter the key: ");
+                scanf("%d", &key);
+                printf("Enter the number: ");
+                scanf("%d", &data);
+                head = insertAtPosition(head, key, data);
+                break;
+            case 4:
+                printf("Enter the number: ");
+                scanf("%d", &data);
+                head = insertLast(head, data);
+                break;
+            case 5:
+                head = deleteFront(head);
+                break;
+            case 6:
+                printf("Enter the key: ");
+                scanf("%d", &key);
+                head = deleteAtPosition(head, key);
+                break;
+            case 7:
+                head = deleteLast(head);
+                break;
+            case 8:
+                display(head);
+                break;
+            case 9:
+                exit(0);
+            default:
+                printf("Invalid choice. Please enter a valid option.\n");
+        }
+    }
+
+    return 0;
+}
+
+
+
