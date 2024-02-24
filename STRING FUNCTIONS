@@ -1,0 +1,61 @@
+#include<stdio.h>
+int stringlength(char *s)
+{
+	int len;
+	for(len=0;*(s+len)!='\0';len++);
+        return len;
+}
+void stringcopy(char *s1,char *s2)
+{
+	int i=0;
+	while(*(s2+i)!='\0')
+	{
+		*(s1+i)=*(s2+i);
+		i++;
+	}
+}
+int stringcompare(char *s1,char *s2)
+{
+	int i=0;int diff=0;
+	while(*(s1+i)!='\0' && *(s2+i)!='\0')
+	{
+		diff=*(s1+i)-*(s2+i);
+		if(diff!=0)
+		{
+			break;
+		}
+		i++;
+	}
+	return diff;
+}
+void stringconcat(char *s1,char *s2)
+{
+	while(*s1!='\0')
+	{
+		s1++;
+	}
+	while(*s2!='\0')
+	{
+		*s1=*s2;
+		s1++;
+		s2++;
+       }
+	
+	*s1='\0';
+} 	
+int main()
+{
+	char s1[20],s2[20],s3[20];
+	printf("Enter the first string:");
+	scanf("%s",s1);
+	printf("Enter the second string:");
+	scanf("%s",s2);
+	printf("The length of first string is  %d\n",stringlength(s1));
+	printf("The difference between the first and second string is %d\n",stringcompare(s1,s2));
+	stringcopy(s3,s1);
+	printf("The content of third string after copying first string-->%s\n",s3);
+	stringconcat(s1,s2);
+	printf("The first string after concatenating the second one to it-->%s\n" ,s1);
+	return 0;
+}
+	
