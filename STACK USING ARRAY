@@ -1,0 +1,58 @@
+#include<stdio.h>
+int stack[100];
+int top=-1;
+void push(int item)
+{
+     if(top==99)
+     {
+         printf("stack overflow\n");
+         return;
+      }
+      stack[++top]=item;
+}
+int pop()
+{
+	if(top==-1)
+	{
+		printf("stack underflow\n");
+		return -1;
+	}
+	return  stack[top--];
+}
+int empty()
+{
+	return top==-1;
+}
+void display()
+{
+	int i;
+	for(i=0;i<=top;i++)
+		printf("%d  ",stack[i]);
+	printf("\n");
+}
+void main()
+{
+	int item ,num;
+	char ch='y';
+	while(ch=='y'||ch=='Y')
+	{
+		printf("1:PUSH\n  2:POP\n  3:DISPLAY\n");
+		printf("Enter your choice?");
+		scanf("%d",&num);
+		switch(num)
+		{
+			case 1 :printf("Enter the number to  be inserted:");
+        	        	scanf("%d",&item);
+        	        	push(item);
+        		        break;
+			case 2: printf("%d\n",pop());
+        		       break;
+			case 3:printf("Stack elements are \n");
+       				display();
+       			       break;
+			default:printf("invalid choice");
+		}
+		printf("do you want to continue (y/n)?");
+		scanf(" %c",&ch);
+	}
+}
