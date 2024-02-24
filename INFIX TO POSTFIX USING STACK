@@ -1,0 +1,118 @@
+#include<stdio.h>
+#include<stdbool.h>
+#include<ctype.h>
+#define MAX_SIZE 100
+void initialize(int stack[],int *top)
+{
+	*top=-1;
+}
+bool isEmpty(int top)
+{
+	return top==-1;
+}
+void push(int stack[],int*top,char value)
+{
+	stack[++(*top)]=value;
+}
+char pop(int stack[],int *top)
+{
+	return stack[(*top)--];
+}
+int getPrecedence(char op)
+{
+	if(op=='+' || op=='-')
+	{
+		return 1;
+	}
+	if(op=='*' ||op=='/')
+	{
+		return 2;
+	}
+	return 0;
+}
+void infixToPostfix(const char infix[],char postfix[])
+{
+	int stack[MAX_SIZE];
+	int top=-1;
+	int i,j=0;
+	for(i=0;infix[i];i++)
+	{
+		char c=infix[i];
+		if(isalnum(c))
+		{
+			postfix[j++]=c;
+		}
+		else if(c=='(')
+		{
+			push(stack,&top,c);
+		}
+		else if(c==')')
+		{
+		while(top>=0&&stack[top]!='(')
+		{	
+			postfix[j++]=pop(stack,&top);
+		}
+		if(top>=0 && stack[top]=='(')
+		{
+			pop(stack,&top);
+		}
+	}
+		else
+		{
+			while(top>=0 && getPrecedence(c)<=getPrecedence(stack[top]))
+			{
+				postfix[j++]=pop(stack,&top);
+			}
+			push(stack,&top,c);
+		}
+}
+		while(top>=0)
+		{
+			postfix[j++]=pop(stack,&top);
+		}
+		postfix[j]='\0';
+}
+int evaluatePostfix(const char postfix[])
+{
+int stack[MAX_SIZE];
+int top=-1;
+int i;
+for(i=0;postfix[i];i++)
+{
+char c=postfix[i];
+if(isdigit(c))
+{
+push(stack,&top,c-'0');
+}
+else
+{
+ int operand2=pop(stack,&top);
+int operand1=pop(stack,&top);
+switch(c)
+{
+case '+':push(stack,&top,operand1+operand2);
+break;
+case '-':push(stack,&top,operand1-operand2);
+break;
+case '*':push(stack,&top,operand1*operand2);
+break;
+case '/':push(stack,&top,operand1/operand2);
+break;
+}
+}
+}
+return pop(stack,&top);
+}
+int main()
+{
+char infix[MAX_SIZE];
+printf("ENTER AN INFIX EXPRESSION");
+scanf("%s",infix);
+char postfix[MAX_SIZE];
+infixToPostfix(infix,postfix);
+printf("postfix expression :%s\n",postfix);
+int result=evaluatePostfix(postfix);
+printf("RESULT:%d\n",result);
+return 0;
+}
+
