@@ -1,0 +1,55 @@
+#include<stdio.h>
+#include<ctype.h>
+int isoperator(char c)
+{
+return(c=='+'||c=='-'||c=='*'||c=='/');
+}
+int precedence(char c)
+{
+if(c=='+'||c=='-')
+  return 1;
+if(c=='*'||c=='/')
+   return 2;
+return 0;
+}
+void infixtopostfix(char* infix)
+{
+char postfix[100];
+int postfixindex=0;
+int i=0;
+for(i=0;infix[i]!='\0';i++)
+{
+ if(isalnum(infix[i]))
+{
+postfix[postfixindex]=infix[i];
+postfixindex++;
+}
+else if (isoperator(infix[i]))
+{
+while(postfixindex>0 && precedence(postfix[postfixindex-1])>=precedence(infix[i]))
+{
+postfix[postfixindex]=postfix[postfixindex-1];
+postfixindex--;
+}
+postfix[postfixindex]=infix[i];
+postfixindex++;
+}
+}
+while(postfixindex>0)
+{
+postfix[postfixindex]='\0';
+postfixindex--;
+printf("%c",postfix[postfixindex]);
+}
+printf("\n");
+}
+int main()
+{
+char infix[100];
+printf("Enter an infix expression");
+scanf("%s",infix);
+printf("postfix expression:");
+infixtopostfix(infix);
+return 0;
+}
+
