@@ -1,0 +1,94 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#define MAX_SIZE 1000
+char stack[MAX_SIZE];
+int top=-1;
+void push(char ch)
+{
+	if(top==(MAX_SIZE-1))
+	{
+		printf("Stackoverflow\n");
+		exit(1);
+        }		
+	stack[++top]=ch;
+}
+char pop()
+{
+	if(top==-1)
+	{
+		printf("stack underflow\n");
+		exit(1);
+	}
+	return stack[top--];
+}
+int isoperator(char ch)
+{
+	return(ch=='+' || ch=='-' || ch=='*' || ch=='/' || ch=='^');
+}
+int precedence(char ch)
+{
+	if(ch=='+'||ch=='-')
+		return 1;
+	if(ch=='*'||ch=='/') 
+        	return 2;
+	if(ch=='^')
+        	return 3;
+	return 0;
+}
+void infixtoprefix(char infix[],char prefix[])
+{
+	int len=strlen(infix);
+	int k,j=0;
+	for(k=len-1;k>=0;k--)
+	{
+		char ch=infix[k];
+		if(ch==')')
+		{
+			push(ch);
+		}
+		else if(ch=='(')
+		{
+			while(top!=-1&&stack[top]!=')')
+			{
+				prefix[j++]=pop();
+			}
+			pop();
+		}
+		else if(isoperator(ch))
+		{
+			while(top!=-1&&precedence(stack[top])>=precedence(ch))
+			{
+				prefix[j++]=pop();
+			}
+			push(ch);
+		}
+		else
+		{
+			prefix[j++]=ch;
+		}
+	}
+	while(top!=-1)
+	{
+		prefix[j++]=pop();
+	}
+	prefix[j]='\0';
+	int i;
+	int prefixlen=strlen(prefix);
+	for(i=0;i<prefixlen/2;i++)
+	{
+		char temp=prefix[i];
+		prefix[i]=prefix[prefixlen-i-1];
+		prefix[prefixlen-i-1]=temp;
+	}
+}
+int main()
+{
+	char infix[MAX_SIZE],prefix[MAX_SIZE];
+	printf("Enter an infix expression:");
+	scanf("%s",infix);
+	infixtoprefix(infix,prefix);
+	printf("prefix expression is:%s\n",prefix);
+	return 0;
+}
+
