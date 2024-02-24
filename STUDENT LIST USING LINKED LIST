@@ -1,0 +1,181 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+struct node
+{
+        int no,mark;
+        char name[50];
+        struct node* link;
+}*ptr,*ne,*temp;
+struct node * getnode(int no,char name[],int mark)
+{
+        struct node *temp=(struct node *)malloc(sizeof(struct node));
+        temp->no=no;
+        temp->mark=mark;
+        strcpy(temp->name,name);
+        temp->link=NULL;
+        return temp;
+}
+void swap(struct node * p,struct node * q)
+{
+        struct node t;
+        t.no=p->no;
+        t.mark=p->mark;
+        strcpy(t.name,p->name);
+        strcpy(p->name,q->name);
+        p->mark=q->mark;
+        p->no=q->no;
+        strcpy(q->name,t.name);
+        q->no=t.no;
+        q->mark=t.mark;
+}
+void display(struct node *head)
+{ 
+        ptr=head->link;
+        printf("student details\n");
+        while(ptr!=NULL)
+        {
+                printf("no-%d name-%s marks-%d \n",ptr->no,ptr->name,ptr->mark);
+                ptr=ptr->link;
+        }
+}
+void insertfront(struct node *head,int no,char name[],int mark)
+{
+        ne=getnode(no,name,mark);
+        if(ne==NULL)
+                printf("memory underflow\n");
+        else
+        {
+                ne->link=head->link;
+                head->link=ne;
+                printf("Data inserted successfully...");
+        }
+}
+void deleteposition(struct node *head, int key) {
+    struct node *ptr, *temp;
+
+    ptr = head->link;
+
+    if (ptr == NULL)
+        printf("Empty list\n");
+    else {
+        if (ptr->no == key) {
+            head->link = ptr->link;
+            printf("Deleted data -> [%d] %s, %d marks\n", ptr->no, ptr->name, ptr->mark);
+            free(ptr);
+        } else {
+            temp = ptr;
+            ptr = ptr->link;
+
+            while (ptr != NULL && ptr->no != key) {
+                temp = ptr;
+                ptr = ptr->link;
+            }
+
+            if (ptr != NULL) {
+                temp->link = ptr->link;
+                printf("Deleted data -> [%d] %s, %d marks\n", ptr->no, ptr->name, ptr->mark);
+                free(ptr);
+            } else {
+                printf("Student not found.\n");
+            }
+        }
+    }
+}
+void sort(struct node *head)
+{
+        head=head->link;
+        while(head!=NULL)
+        {
+                ptr=head;
+                while(ptr!=NULL)
+                {
+                        if(head->no > ptr->no)
+                        {
+                                swap(head,ptr);
+                        }
+                        ptr=ptr->link;
+                }
+                head=head->link;
+        }
+        printf("sorted ..\n");
+}
+void search(struct node *head)
+{
+        char keyname[50];
+        head=head->link;
+        int key,ch,f=1;
+        printf("search by name(1) or number(2):");
+        scanf("%d",&ch);
+        if(ch==1)
+        {
+                f=0;
+                printf("Enter the name:");
+                scanf("%s",keyname);
+                while(head!=NULL)
+                {
+                        if(strcmp(head->name,keyname)==0)
+                        {
+                                printf("Details found...\n[%d]%s,%d marks\n",head->no,head->name,head->mark);
+                                f=1;
+                        }
+                        head=head->link;
+                }
+        }
+        else if(ch==2)
+        {
+                f=0;
+                printf("Enter the number:");
+                scanf("%d",&key);
+                while(head!=NULL)
+                {
+                        if(head->no==key)
+                        {
+                                printf("Details found..\n[%d] %s ,%d marks\n",head->no,head->name,head->mark);
+                                f=1;
+                        }
+                        head=head->link;
+                }
+        }
+        else
+                printf("Invalid choice..\n");
+        if(f==0)
+                printf("Student not found");
+}
+int main()
+{
+        char name[50];
+        struct node *head=getnode(0,name,0);
+        int a=0,data,key,no,mark;
+        while(a!=6)
+        {
+                printf("\n1.insert  2.delete   3.diplay  4.search 5.sort  6.exit\n enter the choice:");
+                scanf("%d",&a);
+                switch(a)
+                {
+                        case 1:printf("Enter the number,name,mark:");
+                                scanf("%d %s %d",&no,name,&mark);
+                                insertfront(head,no,name,mark);
+                                break;
+                        case 2:printf("Enter the number:");
+                                scanf("%d",&key);
+                                deleteposition(head,key);
+                                break;
+                        case 3:display(head);
+                                break;
+                        case 4:search(head);
+                                break;
+                        case 5:sort(head);
+                                break;
+                        case 6:printf("Exiting\n");
+                                break;
+                        default:printf("Invalid input\n");
+                }
+        }
+        return 0;
+}
+
+
+
+
+
